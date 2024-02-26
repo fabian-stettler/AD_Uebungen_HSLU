@@ -17,5 +17,5 @@
 /**
  * Demo-Package.
  */
-package Uebungen_AD.week0_Wiedereinstieg.demo;
+package Uebungen_AD.demo;
 

@@ -1,4 +1,4 @@
-package Uebungen_AD.week0_Wiedereinstieg.week1;
+package Uebungen_AD.week1;
 
 public class SymmetricNumbers {
 

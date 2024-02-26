@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package Uebungen_AD.week0_Wiedereinstieg.demo;
+package Uebungen_AD.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
