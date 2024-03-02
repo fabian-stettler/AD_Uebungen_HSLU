@@ -3,8 +3,8 @@ package Uebungen_AD.week0_Wiedereinstieg;
 import java.util.Objects;
 
 public final class Allocation implements Comparable {
-    final long size;
-    final long startingAdress;
+    private final long size;
+    private final long startingAdress;
 
     @Override
     /*
