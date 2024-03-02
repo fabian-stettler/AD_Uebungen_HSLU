@@ -5,13 +5,34 @@ import java.util.Objects;
 /*
 This is a queue implementation with a modulo array
  */
-public class Queue {
+public class Queue implements InterfaceQueue{
+    /**
+     * @param begin zeigt immer auf das Element ganz vorne der Queue
+     */
     private int begin = 0;
+
+    /**
+     * @param end zeigt immer auf den leeren Platz nach dem letzten Element der queue
+     */
     private int end = 0;
-    final private int lengthMax = 8;
+    final private int lengthMax;
     private int currentLength = 0;
     char[] queueArray = new char[8];
 
+    public Queue(int maxLength){
+        this.lengthMax = maxLength;
+    }
+
+    @Override
+    public String toString() {
+        return "Queue{" +
+                "begin=" + begin +
+                ", end=" + end +
+                ", lengthMax=" + lengthMax +
+                ", currentLength=" + currentLength +
+                ", queueArray=" + Arrays.toString(queueArray) +
+                '}';
+    }
     private int getNextIndex(int index){
         return (index + 1) % lengthMax;
     }
@@ -24,19 +45,17 @@ public class Queue {
     }
 
     private boolean isEmpty(){
-        if (end == begin){
-            if(currentLength == 0){
-                return true;
-            }
+        if(currentLength == 0){
+            return true;
         }
+
         return false;
     }
     public boolean isFull(){
-        if (end == begin){
-            if(currentLength == 8){
+        if(currentLength == lengthMax){
                 return true;
             }
-        }
+
         return false;
     }
 
@@ -55,15 +74,15 @@ public class Queue {
         if (isEmpty()){
             throw new RuntimeException("The queue is already empty.");
         }
-        char enqueuedElement = queueArray[begin];
+        char dequeuedElement = queueArray[begin];
         //set empty queue position to null
         queueArray[begin] = '\u0000';
         begin = getNextIndex(begin);
         currentLength--;
-        return enqueuedElement;
+        return dequeuedElement;
     }
 
-    public void printLinkedList(){
+    public void printQueue(){
         System.out.print("front --");
         for (int i = 0; i < currentLength; i++){
             System.out.print(queueArray[i] + " -- ");
@@ -89,11 +108,11 @@ public class Queue {
     }
 
     public static void main(String args[]){
-        Queue queue = new Queue();
+        Queue queue = new Queue(9);
         queue.enqueue('X');
         queue.enqueue('Y');
         queue.enqueue('Z');
-        queue.printLinkedList();
+        queue.printQueue();
 
     }
 
