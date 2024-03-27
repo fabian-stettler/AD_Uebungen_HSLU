@@ -48,10 +48,10 @@ public final class Canvas {
 
     /**
      * Factory method to get the canvas singleton object.
-     *
+     * muss synchrinisert sein, da ansonsten gleichzeitige Zugriffe gemacht werden, was zu neu erzeugten Fenster (Canvas's) führt.
      * @return singleton Canvas object.
      */
-    public static Canvas getCanvas() {
+    public static synchronized Canvas getCanvas() {
         if (canvasSingleton == null) {
             canvasSingleton = new Canvas("Ball Demo", 600, 400,
                     Color.white);

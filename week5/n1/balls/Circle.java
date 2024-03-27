@@ -71,6 +71,10 @@ public class Circle {
         return yPosition;
     }
 
+    public int getDiameter(){
+        return diameter;
+    }
+
     /**
      * Make this circle visible. If it was already visible, do nothing.
      */
@@ -187,6 +191,7 @@ public class Circle {
     public void changeSize(int newDiameter) {
         erase();
         diameter = newDiameter;
+
         draw();
     }
 

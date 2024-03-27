@@ -30,20 +30,18 @@ public class DemoBalls {
     public static void main(final String[] args) {
         final String[] color = {"red", "black", "blue", "yellow", "green", "magenta"};
 
-        Ball ball1 = new Ball(600, 10, 10, color[2]);
-
-        Ball[] ballArray = new Ball[1000];
+        Thread[] ballArray = new Thread[1000];
         Random rand = new Random();
 
         for (int i =0 ; i < 1000; i++){
             //create random circles
             int randomPosX = rand.nextInt((600));
-            int randomSize = rand.nextInt(30 - 10) + 10;
-            ballArray[i] = new Ball(randomSize, randomPosX, 0, color[i%5]);
+            int randomSize = rand.nextInt(50 - 10) + 10;
+            ballArray[i] = new Thread(new Ball(randomSize, randomPosX, 0, color[i%5], rand.nextInt(50) + 20));
         }
 
         for (int i =0 ; i < 1000; i++){
-            Thread.startVirtualThread(ballArray[i]::run);
+            ballArray[i].start();
         }
 
 

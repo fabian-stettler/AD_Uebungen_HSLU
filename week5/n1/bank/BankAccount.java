@@ -21,6 +21,8 @@ package Uebungen_AD.week5.n1.bank;
 public final class BankAccount {
 
     private int balance;
+    private final Object lock = new Object();
+
 
     /**
      * Erzeugt ein Bankkonto mit einem Anfangssaldo.
@@ -53,10 +55,7 @@ public final class BankAccount {
      * @param amount Einzuzahlender Betrag
      */
     public void deposite(final int amount) {
-        synchronized (this){
             this.balance += amount;
-        }
-
     }
 
     /**
@@ -67,9 +66,13 @@ public final class BankAccount {
      */
     public void transfer(final BankAccount target, final int amount) {
 
-        synchronized (this){
+        synchronized (this.lock){
             this.balance -= amount;
         }
-        target.deposite(amount);
+
+        synchronized (target.lock){
+            target.deposite(amount);
+        }
+
     }
 }

@@ -23,25 +23,30 @@ public class Ball implements Runnable {
     private final Circle circle;
     private final int size;
     private final int offset;
+    private final int speed;
 
-    public Ball(final int size, final int xPos, final int yPos, String color) {
+    public Ball(final int size, final int xPos, final int yPos, String color, final int speed) {
         this.size = size;
         this.circle = new Circle(size/2, xPos, yPos, color);
         this.offset = 2;
+        this.speed = speed;
     }
 
     @Override
     public void run() {
-        this.threadLogic();
-    }
-
-    private void threadLogic(){
         this.circle.makeVisible();
+
         //move balls down and make them pop
-        while (circle.getY() < 380){
-            this.circle.moveVertical(2);
+        while (circle.getY() < 300){
+            this.circle.moveVertical(speed);
         }
+
+
         //ball pop
+        int currentDiameter = circle.getDiameter();
+        while (circle.getDiameter() > 0){
+            this.circle.changeSize(circle.getDiameter()-20);
+        }
         this.circle.makeInvisible();
     }
 }
