@@ -89,6 +89,27 @@ public class Sort {
     }
 
     /**
+     * sorts an array with the help of insertion sort
+     * @param array
+     */
+    public void shellSort(int array[]){
+        int length = array.length;
+        //gaps
+        for (int gaps = length/2; gaps > 0; gaps = gaps/2){
+            //insertion sort
+            for (int i = gaps; i < length; i++){
+                int temp = array[i];
+                int j;
+                for (j = i; j >= gaps && array[j-gaps] > temp; j-= gaps){
+                    array[j] = array[j-gaps];
+                }
+                array[j] = temp;
+            }
+
+        }
+    }
+
+    /**
      *
      * @param array
      * @param firstUpperBoundary index of the element to be sorted
