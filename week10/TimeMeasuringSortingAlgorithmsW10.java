@@ -8,7 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 
 public class TimeMeasuringSortingAlgorithms {
-    private final int LENGTH = 400_000;
+    private final int LENGTH = 1_000_000;
     int[] sortedArray = new int[LENGTH];
     int[] reversedArray = new int[LENGTH];
     int[] randomArray = new int[LENGTH];
@@ -27,15 +27,15 @@ public class TimeMeasuringSortingAlgorithms {
 
     }
     public void timeMeasuringSortingAlgos(Consumer<int[]> sortMethod){
-        int passes = 10;
+        int passes = 1;
         long timeSortingReversedArray = 0L;
         long timeSortingSortedArray = 0L;
         long timeSortingRandomArray = 0L;
         for (int i = 0; i < passes; i++){
             //clone arrays
-            int[] sortedArrayCopy = sortedArray.clone();
-            int[] reversedArrayCopy = reversedArray.clone();
-            int[] randomArrayCopy = randomArray.clone();
+            int[] sortedArrayCopy = Arrays.copyOf(sortedArray, LENGTH);
+            int[] reversedArrayCopy = Arrays.copyOf(reversedArray, LENGTH);
+            int[] randomArrayCopy = Arrays.copyOf(randomArray, LENGTH);
 
             //measure time with sorted array
             long t1 = System.currentTimeMillis();
@@ -85,7 +85,7 @@ public class TimeMeasuringSortingAlgorithms {
         measuringObject.initializeRandomArray(measuringObject.randomArray);
         measuringObject.prepareSpecialArrays();
 
-        Consumer<int[]> methodReference = sortingObject::shellSort;
+        Consumer<int[]> methodReference = sortingObject::insertionSort2WithBinarySearch;
         measuringObject.timeMeasuringSortingAlgos(methodReference);
     }
 }
