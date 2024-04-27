@@ -1,4 +1,4 @@
-package Uebungen_AD.week9;
+package Uebungen_AD.week10;
 
 public class Sort {
 
@@ -138,6 +138,69 @@ public class Sort {
         }
         return lower;
     }
+
+    /**
+     *
+     * @param array
+     * Enables a call with only the array
+     */
+    public void quickSortCall(final char array[]){
+        quickSort(array, 0, array.length-1);
+    }
+
+    public void quickSortCall(final int array[]){
+        //quickSort(array, 0, array.length-1);
+    }
+
+    /**
+     *
+     * @param array
+     * @param left is the left index boundary
+     * @param right is the right index boundary (length -1)
+     * Bei zweiter Variante die hier implementiert wurde,werden Elemente die gleich sind auch ausgetauscht (es wird also nur strikt verglichen
+     */
+    public void quickSort(final char array[], int left, int right){
+        char pivot = array[right];
+        int up = left;
+        int down = right;
+        boolean allIsChecked = false;
+        do {
+            while (array[up] < pivot){
+                up++;
+            }
+            while (down > up && array[down] > pivot) {
+                down--;
+            }
+
+            if (down > up){
+                //swap
+                char temp = array[up];
+                array[up] = array[down];
+                array[down] = temp;
+                down--;
+                up++;
+            }
+            else{
+                allIsChecked = true;
+            }
+        }while (!allIsChecked);
+
+        //pivot swap
+        //char temp = array[right];
+        array[right] = array[up];
+        array[up] = pivot;
+
+        //rec call
+        if (left < (up-1)){
+            quickSort(array, left, up-1);
+        }
+        if (right > (up+1)){
+            quickSort(array, up+ 1, right);
+        }
+        return;
+
+    }
+
 
     public static void main(String[] args){
         int[] arrayTest = new int[10];

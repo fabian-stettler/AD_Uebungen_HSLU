@@ -1,22 +1,24 @@
-package Uebungen_AD.week9;
+package Uebungen_AD.week10;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import Uebungen_AD.week10.TimeMeasuringSortingAlgorithmsW10;
 import org.apache.commons.lang3.ArrayUtils;
 
 
-public class TimeMeasuringSortingAlgorithms {
-    private final int LENGTH = 1_000_000;
-    int[] sortedArray = new int[LENGTH];
-    int[] reversedArray = new int[LENGTH];
-    int[] randomArray = new int[LENGTH];
+public class TimeMeasuringSortingAlgorithmsW10 {
+    private final int LENGTH = 500_000;
+    char[] sortedArray = new char[LENGTH];
+    char[] reversedArray = new char[LENGTH];
+    char[] randomArray = new char[LENGTH];
 
-    private void initializeRandomArray(int[] array){
+    private void randomChars(char[] array) {
         Random rand = new Random();
         for (int i = 0; i < array.length; i++) {
-            array[i] = rand.nextInt(LENGTH); // Random integer between 0 and 99
+            // Generate a random character between 'a' and 'z' (lowercase letters)
+            array[i] = (char) (rand.nextInt(26) + 'a');
         }
     }
 
@@ -26,25 +28,25 @@ public class TimeMeasuringSortingAlgorithms {
         ArrayUtils.reverse(reversedArray);
 
     }
-    public void timeMeasuringSortingAlgos(Consumer<int[]> sortMethod){
-        int passes = 1;
+    public void timeMeasuringSortingAlgos(Consumer<char[]> sortMethod){
+        int passes = 5;
         long timeSortingReversedArray = 0L;
         long timeSortingSortedArray = 0L;
         long timeSortingRandomArray = 0L;
         for (int i = 0; i < passes; i++){
             //clone arrays
-            int[] sortedArrayCopy = Arrays.copyOf(sortedArray, LENGTH);
-            int[] reversedArrayCopy = Arrays.copyOf(reversedArray, LENGTH);
-            int[] randomArrayCopy = Arrays.copyOf(randomArray, LENGTH);
+            //char[] sortedArrayCopy = Arrays.copyOf(sortedArray, LENGTH);
+            //char[] reversedArrayCopy = Arrays.copyOf(reversedArray, LENGTH);
+            char[] randomArrayCopy = Arrays.copyOf(randomArray, LENGTH);
 
             //measure time with sorted array
             long t1 = System.currentTimeMillis();
-            sortMethod.accept(sortedArrayCopy);
+            //sortMethod.accept(sortedArrayCopy);
             long t2 = System.currentTimeMillis();
 
             //measure time with reversed array
             long t12 = System.currentTimeMillis();
-            sortMethod.accept(reversedArrayCopy);
+            //sortMethod.accept(reversedArrayCopy);
             long t22 = System.currentTimeMillis();
 
             //measure time of random array
@@ -53,8 +55,8 @@ public class TimeMeasuringSortingAlgorithms {
             long t23 = System.currentTimeMillis();
 
             timeSortingRandomArray += (t23 - t13);
-            timeSortingSortedArray += (t2 - t1);
-            timeSortingReversedArray += (t22 - t12);
+            //timeSortingSortedArray += (t2 - t1);
+            //timeSortingReversedArray += (t22 - t12);
 
             if (i == 1 || i == 2){
                 System.out.println("Test if two consequitive passes take equally long");
@@ -77,15 +79,19 @@ public class TimeMeasuringSortingAlgorithms {
     }
 
     public static void main(String args[]){
-        TimeMeasuringSortingAlgorithms measuringObject = new TimeMeasuringSortingAlgorithms();
+
+        // Setzen der Stackgröße auf 1 MB für jeden Thread
+        System.setProperty("java.lang.Thread.stackSize", "1M");
+
+        TimeMeasuringSortingAlgorithmsW10 measuringObject = new TimeMeasuringSortingAlgorithmsW10();
         Sort sortingObject = new Sort();
 
-        measuringObject.initializeRandomArray(measuringObject.sortedArray);
-        measuringObject.initializeRandomArray(measuringObject.reversedArray);
-        measuringObject.initializeRandomArray(measuringObject.randomArray);
+        measuringObject.randomChars(measuringObject.sortedArray);
+        measuringObject.randomChars(measuringObject.reversedArray);
+        measuringObject.randomChars(measuringObject.randomArray);
         measuringObject.prepareSpecialArrays();
 
-        Consumer<int[]> methodReference = sortingObject::insertionSort2WithBinarySearch;
+        Consumer<char[]> methodReference = sortingObject::quickSortCall;
         measuringObject.timeMeasuringSortingAlgos(methodReference);
     }
 }
