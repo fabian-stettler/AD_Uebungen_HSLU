@@ -2,6 +2,8 @@ package Uebungen_AD.week10;
 
 import scala.Int;
 
+import javax.management.remote.JMXServerErrorException;
+
 public class Sort {
 
 
@@ -262,8 +264,52 @@ public class Sort {
         }
     }
 
-    
+    public void mergeSortCall(final char[] array){
+        char[] arrayHelper = new char[array.length];
+        mergeSort(array, 0, array.length-1, arrayHelper);
+    }
 
+    private void mergeSort(char[] array, int left, int right, char[] arrayHelper) {
+
+        int mid = left + (right - left)/2;
+        int up = left;
+        int down = right;
+
+        if (left < right){
+            //rec calls
+            mergeSort(array, left, mid, arrayHelper);
+            mergeSort(array, mid +1, right, arrayHelper);
+
+            //check if there is more than one element
+
+            //copy into helper array
+            for (int k = left; k <= mid; k++){
+                arrayHelper[k] = array[k];
+            }
+
+            //copy into helper array reversed
+            int x = right;
+            for (int l = mid +1; l <= right; l++){
+                arrayHelper[l] = array[x];
+                x--;
+            }
+
+            //actual sorting
+            for (int l = left; l <= right; l++){
+                if (arrayHelper[up] >= arrayHelper[down]){
+                    array[l] = arrayHelper[down];
+                    down--;
+                }
+                else {
+                    array[l] = arrayHelper[up];
+                    up++;
+                }
+            }
+
+
+        }
+
+    }
 
 
     int choosePivot(Comparable left, Comparable mid, Comparable right) {
