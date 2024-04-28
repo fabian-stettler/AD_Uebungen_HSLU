@@ -1,5 +1,7 @@
 package Uebungen_AD.week10;
 
+import scala.Int;
+
 public class Sort {
 
 
@@ -141,17 +143,16 @@ public class Sort {
 
     /**
      *
-     * @param array
+     * @param comparableArray
      * Enables a call with only the array
      */
-    public void quickSortCall(final char array[]){
+    public void quickSortCallGenerisch(final Comparable comparableArray[]){
+        quickSortGenerisch(comparableArray, 0, comparableArray.length - 1);
+    }
+
+    public void quickSortCall(final char[] array){
         quickSort(array, 0, array.length-1);
     }
-
-    public void quickSortCall(final int array[]){
-        //quickSort(array, 0, array.length-1);
-    }
-
     /**
      *
      * @param array
@@ -159,6 +160,54 @@ public class Sort {
      * @param right is the right index boundary (length -1)
      * Bei zweiter Variante die hier implementiert wurde,werden Elemente die gleich sind auch ausgetauscht (es wird also nur strikt verglichen
      */
+    public void quickSortGenerisch(final Comparable array[], int left, int right){
+
+        Comparable pivot = array[right];
+        /*
+        Comparable possiblePivotLeft = array[left];
+        Comparable possiblePivotRight = array[right];
+        Comparable possiblePivotMiddle = array[(left + (right-left)/2)];
+        int pivot = choosePivot(possiblePivotLeft, possiblePivotMiddle, possiblePivotRight);
+        */
+        int up = left;
+        int down = right;
+        boolean allIsChecked = false;
+        do {
+            while (array[up].compareTo(pivot) < 0){
+                up++;
+            }
+            while (down > up && array[down].compareTo(pivot) > 0) {
+                down--;
+            }
+
+            if (down > up){
+                //swap
+                Comparable temp = array[up];
+                array[up] = array[down];
+                array[down] = temp;
+                down--;
+                up++;
+            }
+            else{
+                allIsChecked = true;
+            }
+        }while (!allIsChecked);
+
+        //pivot swap
+        //char temp = array[right];
+        array[right] = array[up];
+        array[up] = pivot;
+
+        //rec call
+        if (left < (up-1)){
+            quickSortGenerisch(array, left, up-1);
+        }
+        if (right > (up+1)){
+            quickSortGenerisch(array, up+ 1, right);
+        }
+        return;
+    }
+
     public void quickSort(final char array[], int left, int right){
         char pivot = array[right];
         int up = left;
@@ -200,6 +249,37 @@ public class Sort {
         return;
 
     }
+
+    public void heapSort(int[] array){
+        FixedSizeHeap heap = new FixedSizeHeap(array.length);
+
+        for (int i = 0; i < array.length; i++){
+            heap.insertIntoHeap(array[i]);
+        }
+
+        for (int i = 0; i < array.length; i++){
+            array[i] = heap.extractFromHeap();
+        }
+    }
+
+    
+
+
+
+    int choosePivot(Comparable left, Comparable mid, Comparable right) {
+            if ((left.compareTo(mid) < 0 && mid.compareTo(right) < 0) || (right.compareTo(mid) < 0 && mid.compareTo(left) < 0)) {
+                // mid ist das Median-Element
+                return 1; // Der Index von mid
+            } else if ((mid.compareTo(left) < 0 && left.compareTo(right) < 0) || (right.compareTo(left) < 0 && left.compareTo(mid) < 0)) {
+                // left ist das Median-Element
+                return 0; // Der Index von left
+            } else {
+                // right ist das Median-Element
+                return 2; // Der Index von right
+            }
+    }
+
+
 
 
     public static void main(String[] args){

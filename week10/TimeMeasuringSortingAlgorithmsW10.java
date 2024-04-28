@@ -1,18 +1,25 @@
 package Uebungen_AD.week10;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.function.Consumer;
 
 import Uebungen_AD.week10.TimeMeasuringSortingAlgorithmsW10;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.CharUtils;
 
 
 public class TimeMeasuringSortingAlgorithmsW10 {
-    private final int LENGTH = 500_000;
+    public static final int PASSES = 1;
+    private final int LENGTH = 20_000_000;
     char[] sortedArray = new char[LENGTH];
     char[] reversedArray = new char[LENGTH];
     char[] randomArray = new char[LENGTH];
+
+    Comparable[] integerArray = new Integer[LENGTH];
+
+    Comparable[] charArray = new Character[LENGTH];
 
     private void randomChars(char[] array) {
         Random rand = new Random();
@@ -28,12 +35,18 @@ public class TimeMeasuringSortingAlgorithmsW10 {
         ArrayUtils.reverse(reversedArray);
 
     }
-    public void timeMeasuringSortingAlgos(Consumer<char[]> sortMethod){
-        int passes = 5;
+
+    private void randomInt(Comparable[] array){
+        Random rand = new Random();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = rand.nextInt(LENGTH); // Random integer between 0 and 99
+        }
+    }
+    public <T> void timeMeasuringSortingAlgos(Consumer<T[]> sortMethod){
         long timeSortingReversedArray = 0L;
         long timeSortingSortedArray = 0L;
         long timeSortingRandomArray = 0L;
-        for (int i = 0; i < passes; i++){
+        for (int i = 0; i < PASSES; i++){
             //clone arrays
             //char[] sortedArrayCopy = Arrays.copyOf(sortedArray, LENGTH);
             //char[] reversedArrayCopy = Arrays.copyOf(reversedArray, LENGTH);
@@ -51,7 +64,7 @@ public class TimeMeasuringSortingAlgorithmsW10 {
 
             //measure time of random array
             long t13 = System.currentTimeMillis();
-            sortMethod.accept(randomArrayCopy);
+            sortMethod.accept((T[]) integerArray);
             long t23 = System.currentTimeMillis();
 
             timeSortingRandomArray += (t23 - t13);
@@ -66,12 +79,12 @@ public class TimeMeasuringSortingAlgorithmsW10 {
 
             }
         }
-        System.out.println("Sorting an array with " + LENGTH + " elements and " + passes + " passes");
+        System.out.println("Sorting an array with " + LENGTH + " elements and " + PASSES + " passes");
         System.out.println("--------------------------");
 
-        System.out.println("Average Time for Sorting Random Array: " +timeSortingRandomArray/passes);
-        System.out.println("Average Time for Sorting Reversed Array: " + timeSortingReversedArray/passes);
-        System.out.println("Average Time for Sorting Sorted Array: "+ timeSortingSortedArray/passes);
+        System.out.println("Average Time for Sorting Random Array: " +timeSortingRandomArray/ PASSES);
+        System.out.println("Average Time for Sorting Reversed Array: " + timeSortingReversedArray/ PASSES);
+        System.out.println("Average Time for Sorting Sorted Array: "+ timeSortingSortedArray/ PASSES);
 
         System.out.println("\nAbsolute Time for Sorting Random Array: " +timeSortingRandomArray);
         System.out.println("Absolute Time for Sorting Reversed Array: " + timeSortingReversedArray);
@@ -86,6 +99,8 @@ public class TimeMeasuringSortingAlgorithmsW10 {
         TimeMeasuringSortingAlgorithmsW10 measuringObject = new TimeMeasuringSortingAlgorithmsW10();
         Sort sortingObject = new Sort();
 
+        /*
+        //normale nicht generische Methode mit char[]
         measuringObject.randomChars(measuringObject.sortedArray);
         measuringObject.randomChars(measuringObject.reversedArray);
         measuringObject.randomChars(measuringObject.randomArray);
@@ -93,5 +108,14 @@ public class TimeMeasuringSortingAlgorithmsW10 {
 
         Consumer<char[]> methodReference = sortingObject::quickSortCall;
         measuringObject.timeMeasuringSortingAlgos(methodReference);
+        */
+
+
+        //Zeitmessung mit der generischen Methode und einem Integer Array
+        measuringObject.randomInt(measuringObject.integerArray);
+
+        Consumer<Integer[]> methodReference = sortingObject::quickSortCallGenerisch;
+        measuringObject.timeMeasuringSortingAlgos(methodReference);
+
     }
 }
