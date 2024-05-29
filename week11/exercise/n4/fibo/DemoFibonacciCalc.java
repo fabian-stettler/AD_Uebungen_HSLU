@@ -66,7 +66,7 @@ public final class DemoFibonacciCalc {
      * @param args not used.
      */
     public static void main(final String[] args) {
-        final int n = 30;
+        final int n = 50;
         long result = 0;
         int threshold = 10;
         LOG.info("fibo({}) start...", n);
@@ -101,18 +101,18 @@ public final class DemoFibonacciCalc {
         long t2 = System.currentTimeMillis();
         DemoMergesort.printResultInMarkdownTable(n, (t2 - t1), "parallel fibRec with threshold", result);
         */
-        /*
+
         long t21 = System.currentTimeMillis();
         result = fiboIterative(n);
         long t22 = System.currentTimeMillis();
         DemoMergesort.printResultInMarkdownTable(n, (t22- t21), "fiboIterative", result);
-        */
 
-        /*
+
+
         long t31 = System.currentTimeMillis();
         result = fiboRecursive(n);
         long t32 = System.currentTimeMillis();
         DemoMergesort.printResultInMarkdownTable(n, (t32 - t31), "fiboRecursive", result);
-         */
+
     }
 }

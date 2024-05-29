@@ -55,19 +55,23 @@ public final class DemoMergesort {
         int threshold = 10;
 
         final int[] arrayOriginal = new int[size];
-        final int[] thresholds = new int[7];
-        thresholds[0] = 50;
-        thresholds[1] = 100;
-        thresholds[2] = 250;
-        thresholds[3] = 500;
-        thresholds[4] = 5000;
-        thresholds[5] = 96;
-        thresholds[6] = 104;
+        final int[] thresholds = new int[11];
+        thresholds[0] = 13_000_000;
+        thresholds[1] = 6_000000;
+        thresholds[2] = 3_000_000;
+        thresholds[3] = 1000000;
+        thresholds[4] = 100000;
+        thresholds[5] = 100;
+        thresholds[6] = 250;
+        thresholds[7] = 500;
+        thresholds[8] = 5000;
+        thresholds[9] = 96;
+        thresholds[10] = 104;
 
 
         try (final ForkJoinPool pool = new ForkJoinPool()) {
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 11; i++) {
             RandomInitTask initTask = new RandomInitTask(arrayOriginal, 100);
             pool.invoke(initTask);
 

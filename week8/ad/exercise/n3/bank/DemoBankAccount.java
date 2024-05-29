@@ -47,7 +47,7 @@ public final class DemoBankAccount {
         final ArrayList<BankAccount> source = new ArrayList<>();
         final ArrayList<BankAccount> target = new ArrayList<>();
         final int amount = 1_000_000;
-        final int number = 30;
+        final int number = 4;
         final int passes = 100;
         long absoluteExecutionTime = 0;
         for (int i = 0; i < number; i++) {

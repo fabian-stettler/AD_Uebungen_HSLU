@@ -22,6 +22,7 @@ public final class SynchronizedCounter implements Counter {
 
     /**
      * Erzeugt einen Zähler mit Zählerstand 0.
+     * Man könnte die synchronisierung auch mit einem privaten lock Objekt gestalten
      */
     private int counter;
     public SynchronizedCounter() {

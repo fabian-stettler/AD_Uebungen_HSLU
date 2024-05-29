@@ -41,16 +41,17 @@ public final class DemoFindFile {
      */
     public static void main(String[] args) {
         final String search = "findADFile.md";
-        final File rootDir = new File("C:/Users/fabia/Documents");
+        final File rootDir = new File("C:/Users/fabia");
 
         final FindFileTask root = new FindFileTask(search, rootDir);
+        LOG.info("root task started");
         long t21 = System.currentTimeMillis();
         LOG.info(root.invoke());
         long t22 = System.currentTimeMillis();
-        LOG.info("Find '{}' concurrent in '{}'", search, rootDir);
+        LOG.info("Find '{}' concurrent in '{}'", search, root.getRawResult());
         LOG.info("Found in {} msec.", t22-t21);
 
-        LOG.info("Start searching '{}' recurive in '{}'", search, rootDir);
+        LOG.info("Start searching '{}' recursive in '{}'", search, rootDir);
         long t1 = System.currentTimeMillis();
         FindFile.findFile(search, rootDir);
         long t2 = System.currentTimeMillis();

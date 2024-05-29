@@ -1,5 +1,7 @@
 package Uebungen_AD.week12;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Automat {

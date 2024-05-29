@@ -53,28 +53,37 @@ public final class DemoBankAccount {
     public static void main(String[] args) throws InterruptedException {
         final ArrayList<BankAccount> source = new ArrayList<>();
         final ArrayList<BankAccount> target = new ArrayList<>();
-        final int amount = 10000;
-        final int number = 5;
-        for (int i = 0; i < number; i++) {
-            source.add(new BankAccount(amount));
-            target.add(new BankAccount());
-        }
-        final Thread[] threads = new Thread[number*2];
+        final int amount = 100_000_0;
+        final int number = 30;
+        final int passes = 100;
+        long absoluteTimeExecution = 0;
+        for (int j = 0; j < passes; j++){
+            for (int i = 0; i < number; i++) {
+                source.add(new BankAccount(amount));
+                target.add(new BankAccount());
+            }
+            final Thread[] threads = new Thread[number*2];
 
-        for (int i = 0; i < number; i++) {
-            threads[i] = new Thread(new AccountTask(source.get(i), target.get(i), amount));
-            threads[i + number] = new Thread(new AccountTask(target.get(i), source.get(i), amount));
+            for (int i = 0; i < number; i++) {
+                threads[i] = new Thread(new AccountTask(source.get(i), target.get(i), amount));
+                threads[i + number] = new Thread(new AccountTask(target.get(i), source.get(i), amount));
+            }
+            long t1 = System.currentTimeMillis();
+            for (final Thread thread : threads) {
+                thread.start();
+            }
+            waitForCompletion(threads);
+            long t2 = System.currentTimeMillis();
+            absoluteTimeExecution += (t2 -t1);
         }
-        for (final Thread thread : threads) {
-            thread.start();
-        }
-        waitForCompletion(threads);
-
 
 
         LOG.info("Bank accounts after transfers");
         for (int i = 0; i < number; i++) {
             LOG.info("source({}) = {}; target({}) = {};", i, source.get(i).getBalance(), i, target.get(i).getBalance());
         }
+        long executionTime = absoluteTimeExecution / passes;
+        LOG.info("Execution Time " + executionTime);
+
     }
 }

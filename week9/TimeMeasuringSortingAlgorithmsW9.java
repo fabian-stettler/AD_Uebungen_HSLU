@@ -1,5 +1,6 @@
-package Uebungen_AD.week10;
+package Uebungen_AD.week9;
 
+import Uebungen_AD.week10.Sort;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
@@ -7,7 +8,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 
-public class TimeMeasuringSortingAlgorithms {
+public class TimeMeasuringSortingAlgorithmsW9 {
     private final int LENGTH = 1_000_000;
     int[] sortedArray = new int[LENGTH];
     int[] reversedArray = new int[LENGTH];
@@ -77,8 +78,8 @@ public class TimeMeasuringSortingAlgorithms {
     }
 
     public static void main(String args[]){
-        TimeMeasuringSortingAlgorithms measuringObject = new TimeMeasuringSortingAlgorithms();
-        Sort sortingObject = new Sort();
+        TimeMeasuringSortingAlgorithmsW9 measuringObject = new TimeMeasuringSortingAlgorithmsW9();
+        Uebungen_AD.week10.Sort sortingObject = new Sort();
 
         measuringObject.initializeRandomArray(measuringObject.sortedArray);
         measuringObject.initializeRandomArray(measuringObject.reversedArray);

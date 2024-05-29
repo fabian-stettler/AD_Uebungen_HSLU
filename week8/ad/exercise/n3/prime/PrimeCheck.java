@@ -51,7 +51,7 @@ public final class PrimeCheck {
         int n = 1;
         //final ExecutorService executorService = Executors.newCachedThreadPool();
         //final ExecutorService executorService = Executors.newSingleThreadExecutor();
-        final ExecutorService executorService = Executors.newFixedThreadPool(50);
+        final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         ExecutorCompletionService<BigInteger> completionService = new ExecutorCompletionService<>(executorService);
         ArrayList<Callable<BigInteger>> list = new ArrayList<>();
 

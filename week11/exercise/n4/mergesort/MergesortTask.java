@@ -48,7 +48,7 @@ public final class MergesortTask extends RecursiveAction {
     @Override
     protected void compute() {
         if (max - min < THRESHOLD) {
-            InsertionSort.exec(array, min, max);
+            Arrays.sort(array, min, max);
         } else {
             final int mid = min + (max - min) / 2;
             invokeAll(new MergesortTask(array, min, mid, THRESHOLD), new MergesortTask(array, mid, max, THRESHOLD));

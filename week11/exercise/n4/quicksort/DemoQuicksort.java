@@ -41,7 +41,7 @@ public final class DemoQuicksort {
      * @param args not used.
      */
     public static void main(final String[] args) {
-        final int size = 10_000_000;
+        final int size = 40_000_000;
         final int[] arrayOriginal = new int[size];
         final int[] thresholds = new int[5];
         thresholds[0] = 2;

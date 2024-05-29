@@ -16,6 +16,8 @@
 package Uebungen_AD.week11.exercise.n4.findfile;
 
 import java.io.File;
+import java.nio.file.Path;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -32,17 +34,21 @@ public final class FindFile {
      * @param name Name des Files.
      * @param dir Verzeichnis.
      */
-    public static void findFile(final String name, final File dir) {
-        final File[] list = dir.listFiles();
-        if (list != null) {
-            for (File file : list) {
+    public static String findFile(final String name, final File dir) {
+        final File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
                 if (file.isDirectory()) {
-                    findFile(name, file);
+                    String found = findFile(name, file);  // Recursive call
+                    if (found != null) {
+                        return found;  // Return the result if found in the directory
+                    }
                 } else if (name.equalsIgnoreCase(file.getName())) {
-                    LOG.info(file.getParentFile().toString());
-                    return;
+                    LOG.info("Found: " + file.getAbsolutePath());  // Log the find
+                    return file.getAbsolutePath();  // Return the path of the file
                 }
             }
         }
+        return null;  // Return null if the file is not found
     }
 }

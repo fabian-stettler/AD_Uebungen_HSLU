@@ -18,6 +18,8 @@ package Uebungen_AD.week11.exercise.n4.findfile;
 import Uebungen_AD.week11.n41.array.search.SearchTask;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.SplittableRandom;
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,8 +32,9 @@ public final class FindFileTask extends CountedCompleter<String> {
     private final String regex;
     private final File dir;
     private final AtomicReference<String> result;
-    private static final int SEGMENTS = 4;
+    private static int SEGMENTS;
     private final int segmentNo;
+    private File[] subdirectories;
 
     /**
      * Erzeugt eine File-Such-Aufgabe.
@@ -50,24 +53,50 @@ public final class FindFileTask extends CountedCompleter<String> {
         this.dir = dir;
         this.result = result;
         this.segmentNo = segmentNo;
+        File[] listedFiles = this.dir.listFiles();
+        if (listedFiles != null) {              //only include directories in array listedFiles
+            this.subdirectories = Arrays.stream(listedFiles)
+                    .filter(File::isDirectory)
+                    .toArray(File[]::new);
+        } else {
+            this.subdirectories = new File[0];  // Initialize as empty array to prevent NullPointerException
+        }
 
+        SEGMENTS = subdirectories.length;
     }
 
     @Override
     public void compute() {
         //sequentiell searching
         if (segmentNo >= 0){
-            FindFile.findFile(regex, dir);
-            if (result.compareAndSet(null, "Result Found")){
-                this.quietlyCompleteRoot();
+            String resultCall = FindFile.findFile(regex, dir);
+            result.compareAndSet(null, resultCall);
+            //decrease counter
+            if (resultCall != null){
+                quietlyCompleteRoot();
+            }
+            else{
+                tryComplete();
             }
         }
         //generating parallel tasks
         else {
-            this.addToPendingCount(FindFileTask.SEGMENTS);
-            for (int i = 0; i < FindFileTask.SEGMENTS+1; i++) {
-                new FindFileTask(this, regex, dir, result, i).fork();
+            if (subdirectories != null && subdirectories.length > 0) {
+                setPendingCount(subdirectories.length);  // Set pending count to the number of subdirectories
+                for (File subdir : subdirectories) {
+                    new FindFileTask(this, regex, subdir, result, 1).fork();
+                }
+            } else {
+                // No subdirectories, check this directory
+                tryComplete();  // Complete as there are no further subdivisions
             }
+        }
+    }
+
+    @Override
+    public void onCompletion(CountedCompleter<?> caller) {
+        if (this == getRoot()) {
+            System.out.println(getRawResult());
         }
     }
 

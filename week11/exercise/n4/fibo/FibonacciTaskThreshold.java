@@ -40,16 +40,8 @@ public final class FibonacciTaskThreshold extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        //Rekursionsbasis
-        if(n == 0){
-            return 0L;
-        }
-        //Rekursionsbasis
-        if (n == 1){
-            return 1L;
-        }
         if (n < THRESHOLD){
-            return fiboIterative(n-1) + fiboIterative(n-2);
+            return fiboIterative(n);
         }
         //Creating new Tasks
         FibonacciTaskThreshold task1 = new FibonacciTaskThreshold(n-2, THRESHOLD);

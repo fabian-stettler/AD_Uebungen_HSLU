@@ -59,6 +59,10 @@ public class AllocationList {
         return false;
     }
 
+    /**
+     *
+     * @returns the last element of the linkedlist
+     */
     public AllocationNode pop(){
         AllocationNode poppedElement = head;
         head = head.getNextNode();

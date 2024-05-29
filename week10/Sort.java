@@ -280,8 +280,6 @@ public class Sort {
             mergeSort(array, left, mid, arrayHelper);
             mergeSort(array, mid +1, right, arrayHelper);
 
-            //check if there is more than one element
-
             //copy into helper array
             for (int k = left; k <= mid; k++){
                 arrayHelper[k] = array[k];
